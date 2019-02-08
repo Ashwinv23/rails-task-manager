@@ -1,0 +1,8 @@
+<h1>My Tasks</h1>
+
+<% @tasks.each do |task| %>
+<div>
+  <input type="checkbox">
+<%= link_to task.title, task_path(task) %> <%# this is required to create a link which points to another page with the details. syntax is link_to what_to_click_on prefix_path(object)  %>
+</div>
+<% end %>
