@@ -14,9 +14,12 @@ class TasksController < ApplicationController
 
   # uses POST request
   def create
-    @task = Task.new(task_params) # create an object with strong params
-    @task.save
-    redirect_to tasks_path # redirect to tasks page after clicking 'create task'
+    @task = Task.new(task_params) # create an object only if params include permitted params
+    if @task.save
+      redirect_to tasks_path # redirect to tasks page after clicking 'create task'
+    else
+      render :new # show the form again
+    end
   end
 
   private
