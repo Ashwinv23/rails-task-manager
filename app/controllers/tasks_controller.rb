@@ -1,4 +1,6 @@
 class TasksController < ApplicationController
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+
   def index
     @tasks = Task.all
   end
@@ -7,25 +9,39 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  # uses GET request
   def new
-    @task = Task.new # just inialiaze task and get to the form page
+    @task = Task.new
   end
 
-  # uses POST request
   def create
-    @task = Task.new(task_params) # create an object only if params include permitted params
-    if @task.save
-      redirect_to tasks_path # redirect to tasks page after clicking 'create task'
-    else
-      render :new # show the form again
-    end
+    task = Task.new(task_params)
+    task.save
+    redirect_to tasks_path
+  end
+
+  def edit
+    @task = Task.find(params[:id])
+  end
+
+  def update
+    @task = Task.find(params[:id])
+    @task.update(task_params)
+    redirect_to task_path(@task)
+  end
+
+  def destroy
+    @task = Task.find(params[:id])
+    @task.destroy
+    redirect_to tasks_path
   end
 
   private
 
-  # strong params - needed for security purpose so it doesn't take crap inputs
+  def set_task
+    @task = Task.find(params[:id])
+  end
+
   def task_params
-    params.require(:task).permit(:title, :details) # permit only what is given
+    params.require(:task).permit(:title, :details, :completed)
   end
 end

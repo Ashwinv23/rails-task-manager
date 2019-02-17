@@ -1,18 +1,24 @@
-<h1>My Tasks</h1>
+<h1>My tasks</h1>
 
-<% @tasks.each do |task| %>
-<div>
-  <% if task.completed %>
-    <i class="far fa-check-square"></i>
-  <% else %>
-    <i class="far fa-square"></i>
+<ul id="tasks">
+  <% @tasks.each do |task| %>
+    <li>
+      <% if task.completed %>
+        <i class="fa fa-check-square-o"></i>
+      <% else %>
+        <i class="fa fa-square-o"></i>
+      <% end %>
+      <%= link_to task.title, task_path(task.id) %>
+      <%= link_to task_path(task.id), method: :delete, data: { confirm: "Delete #{task.title}?" } do %>
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      <% end %>
+    </li>
   <% end %>
-  <%= link_to task.title, task_path(task) %> <%# this is required to create a link which points to another page with the details. syntax is link_to what_to_click_on prefix_path(object)  %>
-</div>
+</ul>
+
+<hr>
+
+<%= link_to tasks_new_path do %>
+  <i class="fa fa-plus"></i> Add a new task
 <% end %>
-
-<br>
-
-<%= link_to "Add a new task", tasks_new_path %>
-
 
